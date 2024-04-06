@@ -2,7 +2,28 @@
 
 namespace Raffmartinez\BhrStripeWrapper;
 
+use Raffmartinez\BhrStripeWrapper\Core\PaymentRequest;
+use Raffmartinez\BhrStripeWrapper\Core\StripeApi;
+
 class Checkout
 {
+    private static string $defaultSuccessUrl = 'https://blackhorserepairs.com/payment/success';
 
+    private static string $defaultCancelUrl = "https://blackhorserepairs.com/payment/cancel";
+
+    /**
+     * Creates checkout session and returns URL to redirect to it
+     *
+     * @param string $productName
+     * @param int $price
+     * @param string|null $ticketNumber
+     * @return string
+     */
+    public static function simpleCheckout(string $productName, int $price, ?string $ticketNumber = null): string
+    {
+        $api = new StripeApi();
+        $request = new PaymentRequest(self::$defaultSuccessUrl, self::$defaultCancelUrl, $productName, $price, 1);
+        $session = $api->createCheckoutSession($request, $ticketNumber);
+        return $session->getUrl();
+    }
 }
