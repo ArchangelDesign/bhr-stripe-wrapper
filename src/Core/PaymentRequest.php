@@ -2,6 +2,8 @@
 
 namespace Raffmartinez\BhrStripeWrapper\Core;
 
+use Raffmartinez\BhrStripeWrapper\Core\Exceptions\InvalidPaymentRequest;
+
 class PaymentRequest
 {
     private string $successUrl;
@@ -20,6 +22,7 @@ class PaymentRequest
      * @param string $productName
      * @param int $productPrice
      * @param int $quantity
+     * @throws InvalidPaymentRequest
      */
     public function __construct(string $successUrl, string $cancelUrl, string $productName, int $productPrice, int $quantity)
     {
@@ -28,6 +31,10 @@ class PaymentRequest
         $this->productName = $productName;
         $this->productPrice = $productPrice;
         $this->quantity = $quantity;
+
+        if ($productPrice < 100) {
+            throw new InvalidPaymentRequest('The amount is too low, must be at least $1.00 (100).');
+        }
     }
 
     /**
