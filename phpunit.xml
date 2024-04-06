@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" processIsolation="false" stopOnFailure="false" bootstrap="tests/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
     <coverage>
         <include>
             <directory suffix=".php">src/</directory>
@@ -9,7 +9,8 @@
         <ini name="memory_limit" value="-1"/>
         <ini name="apc.enable_cli" value="1"/>
         <const name="BHR_UNIT_TESTS_RUNNING" value="1"/>
-        <env name="BHR_STRIPE_CONNECT_SK" value="bad one"/>
+        <env name="BHR_STRIPE_CONNECT_SK" value="sk_test_51P2Yo7EVsFp2pnL9DgGjS3VgA4YXGrTmc6mG9j04vz0fbTv0bkmJsdvZx9OPXwOwPDpmkeFf6NmP7I4Q29f6qINQ00CUjELRmK"/>
+        <env name="BHR_STRIPE_WEBHOOK_SECRET" value="whsec_FAENV5pDl57RSluKUAD7TLtNVYUlpGGQ"/>
     </php>
     <testsuites>
         <testsuite name="core">
