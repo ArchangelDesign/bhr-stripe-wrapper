@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" processIsolation="false" stopOnFailure="false" bootstrap="tests/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+    <coverage>
+        <include>
+            <directory suffix=".php">src/</directory>
+        </include>
+    </coverage>
+    <php>
+        <ini name="memory_limit" value="-1"/>
+        <ini name="apc.enable_cli" value="1"/>
+        <const name="BHR_UNIT_TESTS_RUNNING" value="1"/>
+        <env name="BHR_STRIPE_CONNECT_SK" value="bad one"/>
+    </php>
+    <testsuites>
+        <testsuite name="core">
+            <directory>tests/Core/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
