@@ -39,4 +39,14 @@ class Checkout
         ];
         return $api->createCheckoutSessionWithMeta($request, $meta);
     }
+
+    public static function setSuccessUrl(string $url)
+    {
+        self::$defaultSuccessUrl = $url;
+    }
+
+    public static function setCancelUrl(string $url)
+    {
+        self::$defaultCancelUrl = $url;
+    }
 }
