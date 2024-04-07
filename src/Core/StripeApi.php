@@ -107,7 +107,7 @@ class StripeApi
 
     public function extractMetadata(string $stripeEvent): array
     {
-        $data = json_decode($stripeEvent, true);
+        $data = json_decode($stripeEvent, true)['data']['object'];
         $piid = $data['payment_intent'];
         $meta = $data['metadata'];
         $meta['paymentIntentId'] = $piid;
