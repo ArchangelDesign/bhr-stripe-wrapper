@@ -2,6 +2,7 @@
 
 namespace Raffmartinez\BhrStripeWrapper;
 
+use Raffmartinez\BhrStripeWrapper\Core\CheckoutSession;
 use Raffmartinez\BhrStripeWrapper\Core\PaymentRequest;
 use Raffmartinez\BhrStripeWrapper\Core\StripeApi;
 
@@ -18,6 +19,7 @@ class Checkout
      * @param int $price
      * @param string|null $ticketNumber
      * @return string
+     * @throws Core\Exceptions\InvalidPaymentRequest
      */
     public static function simpleCheckout(string $productName, int $price, ?string $ticketNumber = null): string
     {
@@ -25,5 +27,16 @@ class Checkout
         $request = new PaymentRequest(self::$defaultSuccessUrl, self::$defaultCancelUrl, $productName, $price, 1);
         $session = $api->createCheckoutSession($request, $ticketNumber);
         return $session->getUrl();
+    }
+
+    public static function checkout(string $productName, int $price, string $ticketNumber, int $paymentRecordId): CheckoutSession
+    {
+        $api = new StripeApi();
+        $request = new PaymentRequest(self::$defaultSuccessUrl, self::$defaultCancelUrl, $productName, $price, 1);
+        $meta = [
+            'ticketNumber' => $ticketNumber,
+            'paymentRecordId' => $paymentRecordId
+        ];
+        return $api->createCheckoutSessionWithMeta($request, $meta);
     }
 }

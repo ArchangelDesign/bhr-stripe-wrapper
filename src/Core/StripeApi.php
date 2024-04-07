@@ -49,6 +49,32 @@ class StripeApi
         return new CheckoutSession($response);
     }
 
+    public function createCheckoutSessionWithMeta(PaymentRequest $request, array $metadata): CheckoutSession
+    {
+        $client = new \Stripe\StripeClient($this->secretKey);
+        $data = [
+            'mode' => 'payment',
+            'line_items' => [
+                [
+                    'quantity' => $request->getQuantity(),
+                    'price_data' => [
+                        'currency' => 'USD',
+                        'product_data' => [
+                            'name' => $request->getProductName(),
+                        ],
+                        'unit_amount' => $request->getProductPrice(),
+                    ]
+                ]
+            ],
+            'success_url' => $request->getSuccessUrl(),
+            'cancel_url' => $request->getCancelUrl(),
+            'metadata' => $metadata
+        ];
+        $response = $client->checkout->sessions->create($data);
+
+        return new CheckoutSession($response);
+    }
+
     public function isCheckoutCompleted(string $data, string $signature): bool
     {
         try {
