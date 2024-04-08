@@ -29,7 +29,7 @@ class Checkout
         return $session->getUrl();
     }
 
-    public static function checkout(string $productName, int $price, string $ticketNumber, int $paymentRecordId): CheckoutSession
+    public static function checkout(string $productName, int $price, string $ticketNumber, int $paymentRecordId, array $extra = []): CheckoutSession
     {
         $api = new StripeApi();
         $request = new PaymentRequest(self::$defaultSuccessUrl, self::$defaultCancelUrl, $productName, $price, 1);
@@ -37,6 +37,7 @@ class Checkout
             'ticketNumber' => $ticketNumber,
             'paymentRecordId' => $paymentRecordId
         ];
+        $meta = array_merge($meta, $extra);
         return $api->createCheckoutSessionWithMeta($request, $meta);
     }
 
