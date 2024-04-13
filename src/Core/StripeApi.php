@@ -136,4 +136,34 @@ class StripeApi
             throw new InvalidStripeKey('The key does not appear to be valid. It should start with "sk_"');
         }
     }
+
+    public function createMultilineCheckoutSessionWithMeta(MultilinePaymentRequest $request, array $extra)
+    {
+        $client = new \Stripe\StripeClient($this->secretKey);
+        $lineItems = [];
+
+        foreach ($request->getProductsAndPrices() as $entry) {
+            $lineItems[] = [
+                'quantity' => 1,
+                'price_data' => [
+                    'currency' => 'USD',
+                    'product_data' => [
+                        'name' => $entry['name']
+                    ],
+                    'unit_amount' => $entry['price']
+                ]
+            ];
+        }
+        $metadata = $extra;
+        $data = [
+            'mode' => 'payment',
+            'line_items' => $lineItems,
+            'success_url' => $request->getSuccessUrl(),
+            'cancel_url' => $request->getCancelUrl(),
+            'metadata' => $metadata
+        ];
+        $response = $client->checkout->sessions->create($data);
+
+        return new CheckoutSession($response);
+    }
 }
