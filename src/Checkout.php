@@ -57,9 +57,10 @@ class Checkout
      * @param string $ticketNumber
      * @param int $paymentRecordId
      * @param array $extra
-     * @return void
+     * @return CheckoutSession
+     * @throws Core\Exceptions\InvalidPaymentRequest
      */
-    public static function multilineCheckout(array $productsAndPrices, int $total, string $ticketNumber, int $paymentRecordId, array $extra)
+    public static function multilineCheckout(array $productsAndPrices, int $total, string $ticketNumber, int $paymentRecordId, array $extra): CheckoutSession
     {
         $request = new MultilinePaymentRequest(self::$defaultSuccessUrl, self::$defaultCancelUrl, $productsAndPrices, $extra);
         $api = new StripeApi();
