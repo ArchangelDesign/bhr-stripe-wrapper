@@ -137,7 +137,7 @@ class StripeApi
         }
     }
 
-    public function createMultilineCheckoutSessionWithMeta(MultilinePaymentRequest $request, array $extra)
+    public function createMultilineCheckoutSessionWithMeta(MultilinePaymentRequest $request, array $extra): CheckoutSession
     {
         $client = new \Stripe\StripeClient($this->secretKey);
         $lineItems = [];
